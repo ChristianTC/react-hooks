@@ -1,7 +1,25 @@
-// importar useState y useEffect
-import React, {useState, useEffect} from 'react'
+// importar useState, useEffect y useReducer
+import React, {useState, useEffect, useReducer} from 'react'
 
 import "../assets/styles/components/Characters.css";
+
+//Crear el estado inicial
+const initialState = {
+    favorites: []
+};
+
+//Crear reducer
+const favoriteReducer = (state, action) => {
+    switch (action.type) {
+        case 'ADD_TO_FAVORITE':
+            return {
+                ...state,
+                favorites: [...state.favorites, action.payload]
+            };
+        default:
+            return state;
+    }
+}
 
 const Characters = () => {
     /**
@@ -11,6 +29,9 @@ const Characters = () => {
      */
     const [characters, setCharacters] = useState([]);
     
+    
+    const [favorites, dispatch] = useReducer(favoriteReducer, initialState)
+
     /**
      * Lógica de useEffect
      * es una función con 2 parámetros
@@ -22,8 +43,12 @@ const Characters = () => {
         fetch('https://rickandmortyapi.com/api/character/')
         .then(response => response.json())
         .then(data => setCharacters(data.results));
-    }, [])
+    }, []);
     
+    const handleClick = favorite => {
+        dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite})
+    }
+
     /** 
      * Nombre del personaje
      * Iteramos por cada uno de los elementos
@@ -31,6 +56,13 @@ const Characters = () => {
     return (
         <section className="section__card">
             <div className="Characters">
+                {favorites.favorites.map(favorite => (
+                    <li key={favorite.id}>
+                        {favorite.name}
+                    </li>
+                ))}
+
+
                 {characters.map(character => (
                         <div className="Characters__card">
                             <div className="Characters__image">
@@ -38,6 +70,7 @@ const Characters = () => {
                             </div>
                             <div className="Characters__name">
                                 <h2>{character.name}</h2>
+                                <button type="button" onClick={()=> handleClick(character)}>Agregar a favoritos</button>
                             </div>
                         </div>
                     )
