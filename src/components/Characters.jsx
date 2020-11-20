@@ -1,5 +1,5 @@
-// importar useState, useEffect y useReducer
-import React, {useState, useEffect, useReducer} from 'react'
+// importar useState, useEffect, useReducer y useMemo
+import React, {useState, useEffect, useReducer, useMemo} from 'react'
 
 import "../assets/styles/components/Characters.css";
 
@@ -29,8 +29,10 @@ const Characters = () => {
      */
     const [characters, setCharacters] = useState([]);
     
-    
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState)
+
+    // useState que se encarga de la búsqueda
+    const [search, setSearch] = useState('');
 
     /**
      * Lógica de useEffect
@@ -49,6 +51,26 @@ const Characters = () => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite})
     }
 
+    //funcion para manejar la búsqueda
+    const handleSearch = (event) => {
+        setSearch(event.target.value)
+    }
+
+    // filtrado de personajes
+    /*
+    const filteredUsers = characters.filter((user) => {
+        return user.name.toLowerCase().includes(search.toLowerCase());
+    })
+    */
+    // usar useMemo
+    const filteredUsers = useMemo(() => 
+        characters.filter((user) => {
+            return user.name.toLowerCase().includes(search.toLowerCase());
+        }),
+        [characters, search]
+    )
+
+
     /** 
      * Nombre del personaje
      * Iteramos por cada uno de los elementos
@@ -62,8 +84,12 @@ const Characters = () => {
                     </li>
                 ))}
 
+                <div>
+                    <input class="btn btn-primary" type="text" value={search} onChange={handleSearch} />
+                </div>
 
-                {characters.map(character => (
+                {/* Cambiamos characters por filtered para usar el filtrado de personajes  */}
+                {filteredUsers.map(character => (
                         <div className="Characters__card">
                             <div className="Characters__image">
                                 <img src={character.image} alt="" srcset=""/>
