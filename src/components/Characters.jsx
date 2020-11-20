@@ -1,6 +1,7 @@
 // importar useState y useEffect
 import React, {useState, useEffect} from 'react'
 
+import "../assets/styles/components/Characters.css";
 
 const Characters = () => {
     /**
@@ -28,11 +29,21 @@ const Characters = () => {
      * Iteramos por cada uno de los elementos
      */
     return (
-        <div className="Characters">
-            {characters.map(character => (
-                <h2>{character.name}</h2>
-            ))}
-        </div>
+        <section className="section__card">
+            <div className="Characters">
+                {characters.map(character => (
+                        <div className="Characters__card">
+                            <div className="Characters__image">
+                                <img src={character.image} alt="" srcset=""/>
+                            </div>
+                            <div className="Characters__name">
+                                <h2>{character.name}</h2>
+                            </div>
+                        </div>
+                    )
+                )}
+            </div>
+        </section>
     )
 }
 

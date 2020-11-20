@@ -1,0 +1,49 @@
+.bg-light{
+    background-color: #fafafa;
+    color: #252525;
+    text-align: center;
+}
+.bg-dark{
+    text-align: center;
+    background-color: #252525;
+    color: #fafafa;
+}
+.Header h1{
+    display: block;
+}
+.Header{
+    height: 100%;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+.Header__button {
+    display: flex;
+    width: 33%;
+    border: solid 1px black;
+    text-align: center;
+    justify-content: center;
+    border-radius: 100%;
+    cursor: pointer;
+}
+.bg-dark .Header__button:hover {
+    background-color: white;
+    color: black;
+    display: flex;
+    width: 33%;
+    border: solid 1px white;
+    text-align: center;
+    justify-content: center;
+    border-radius: 100%;
+}
+.bg-light .Header__button:hover {
+    background-color: black;
+    color: white;
+    display: flex;
+    width: 33%;
+    border: solid 1px white;
+    text-align: center;
+    justify-content: center;
+    border-radius: 100%;
+}
