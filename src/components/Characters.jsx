@@ -1,6 +1,8 @@
 // importar useState, useEffect, useReducer, useMemo, useRef y useCallback
 import React, {useState, useEffect, useReducer, useMemo, useRef, useCallback } from 'react'
 import Search from './Search';
+// import useCharacters (hook personalizado de useEffect)
+import useCharacters from '../hooks/useCharacters';
 
 import "../assets/styles/components/Characters.css";
 
@@ -8,6 +10,8 @@ import "../assets/styles/components/Characters.css";
 const initialState = {
     favorites: []
 };
+
+const API = 'https://rickandmortyapi.com/api/character/';
 
 //Crear reducer
 const favoriteReducer = (state, action) => {
@@ -23,13 +27,10 @@ const favoriteReducer = (state, action) => {
 }
 
 const Characters = () => {
-    /**
-     * Lógica de useState
-     * constante donde internamente estructuramos los elementos que necesitamos
-     * de useState y lo iniciamos como un vector vacío
-     */
-    const [characters, setCharacters] = useState([]);
     
+    // ELiminamos logica de useState
+
+
     const [favorites, dispatch] = useReducer(favoriteReducer, initialState)
 
     // useState que se encarga de la búsqueda
@@ -39,18 +40,9 @@ const Characters = () => {
     const searchInput = useRef(null);
 
 
-    /**
-     * Lógica de useEffect
-     * es una función con 2 parámetros
-     * el primero es una función anónima donde va a estar la lógica
-     * el segundo es una variable que esta escuchando si hay cambios 
-     */
-    useEffect(() => {
-        // useEffect llama a fetch, el cual obtiene la informacion de la api de RickAndMorty
-        fetch('https://rickandmortyapi.com/api/character/')
-        .then(response => response.json())
-        .then(data => setCharacters(data.results));
-    }, []);
+    //Quitamos la parte de use effect para implementar el useCharacters.
+    const characters = useCharacters(API);
+
     
     const handleClick = favorite => {
         dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite})
