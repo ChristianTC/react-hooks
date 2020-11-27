@@ -1,5 +1,6 @@
-// importar useState, useEffect, useReducer, useMemo y useRef
-import React, {useState, useEffect, useReducer, useMemo, useRef} from 'react'
+// importar useState, useEffect, useReducer, useMemo, useRef y useCallback
+import React, {useState, useEffect, useReducer, useMemo, useRef, useCallback } from 'react'
+import Search from './Search';
 
 import "../assets/styles/components/Characters.css";
 
@@ -62,9 +63,19 @@ const Characters = () => {
     }
     */
    //usando useRef
+    /*
     const handleSearch = () => {
         setSearch(searchInput.current.value);
     }
+    */
+
+    const handleSearch = useCallback(()=>{
+        setSearch(searchInput.current.value)
+    }, [])
+
+
+
+
 
     // filtrado de personajes
     /*
@@ -94,9 +105,7 @@ const Characters = () => {
                     </li>
                 ))}
 
-                <div>
-                    <input class="btn btn-primary" type="text" value={search} onChange={handleSearch} ref={searchInput} />
-                </div>
+                <Search search={search} handleSearch={handleSearch} searchInput={searchInput} />
 
                 {/* Cambiamos characters por filtered para usar el filtrado de personajes  */}
                 {filteredUsers.map(character => (
