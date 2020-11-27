@@ -1,5 +1,5 @@
-// importar useState, useEffect, useReducer y useMemo
-import React, {useState, useEffect, useReducer, useMemo} from 'react'
+// importar useState, useEffect, useReducer, useMemo y useRef
+import React, {useState, useEffect, useReducer, useMemo, useRef} from 'react'
 
 import "../assets/styles/components/Characters.css";
 
@@ -34,6 +34,10 @@ const Characters = () => {
     // useState que se encarga de la búsqueda
     const [search, setSearch] = useState('');
 
+    // useRef 
+    const searchInput = useRef(null);
+
+
     /**
      * Lógica de useEffect
      * es una función con 2 parámetros
@@ -52,8 +56,14 @@ const Characters = () => {
     }
 
     //funcion para manejar la búsqueda
+    /*
     const handleSearch = (event) => {
         setSearch(event.target.value)
+    }
+    */
+   //usando useRef
+    const handleSearch = () => {
+        setSearch(searchInput.current.value);
     }
 
     // filtrado de personajes
@@ -85,7 +95,7 @@ const Characters = () => {
                 ))}
 
                 <div>
-                    <input class="btn btn-primary" type="text" value={search} onChange={handleSearch} />
+                    <input class="btn btn-primary" type="text" value={search} onChange={handleSearch} ref={searchInput} />
                 </div>
 
                 {/* Cambiamos characters por filtered para usar el filtrado de personajes  */}
